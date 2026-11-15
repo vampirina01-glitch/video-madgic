@@ -1,0 +1,6 @@
+.venv/
+assets/audio/music.wav
+assets/audio/mix.wav
+assets/build/
+*.mp4
+__pycache__/

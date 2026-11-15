@@ -31,4 +31,17 @@ python3 -m venv .venv && .venv/bin/pip install moviepy pillow numpy
 SAMPLE_TIMES="2,20,40,52" .venv/bin/python render.py   # images de contrôle uniquement
 ```
 
-Livrable final : `madgic_promo.mp4` (généré, non versionné).
+Livrables :
+- `madgic_promo.mp4` — master vertical 9:16 (versionné pour la pérennité).
+- `madgic_promo_poster.jpg` — miniature/affiche (versionnée).
+- `madgic_promo_16x9.mp4` / `madgic_promo_1x1.mp4` — variantes centrées sur fond flou (non versionnées ; régénérer depuis le master) :
+
+```bash
+FF=$(python3 -c "import imageio_ffmpeg; print(imageio_ffmpeg.get_ffmpeg_exe())")  # ou via le venv
+$FF -y -loglevel error -i madgic_promo.mp4 -filter_complex \
+  "[0:v]split[bg][fg];[bg]scale=1920:1080:force_original_aspect_ratio=increase,crop=1920:1080,gblur=sigma=30,eq=brightness=-0.28:saturation=0.8[bgb];[fg]scale=-2:1080[fgs];[bgb][fgs]overlay=(W-w)/2:0[v]" \
+  -map "[v]" -map 0:a -c:v libx264 -crf 22 -pix_fmt yuv420p -c:a copy madgic_promo_16x9.mp4
+# idem avec 1080:1080 / crop=1080:1080 pour le carré 1:1
+```
+
+Légendes et hashtags prêts à coller : voir `SOCIAL.md`.

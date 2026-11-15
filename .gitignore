@@ -2,5 +2,7 @@
 assets/audio/music.wav
 assets/audio/mix.wav
 assets/build/
-*.mp4
+# Variantes exportées depuis le master (régénérables, non versionnées)
+madgic_promo_16x9.mp4
+madgic_promo_1x1.mp4
 __pycache__/
